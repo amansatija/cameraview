@@ -40,6 +40,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.SeekBar;
 import android.widget.Toast;
 
 import com.google.android.cameraview.AspectRatio;
@@ -102,6 +103,7 @@ public class MainActivity extends AppCompatActivity implements
             }
         }
     };
+    private SeekBar mSbZoomSeekBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,6 +112,7 @@ public class MainActivity extends AppCompatActivity implements
         mCameraView = (CameraView) findViewById(R.id.camera);
         if (mCameraView != null) {
             mCameraView.addCallback(mCallback);
+            mCameraView.setManualFocus(true);
         }
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.take_picture);
         if (fab != null) {
@@ -121,6 +124,30 @@ public class MainActivity extends AppCompatActivity implements
         if (actionBar != null) {
             actionBar.setDisplayShowTitleEnabled(false);
         }
+
+        mSbZoomSeekBar = (SeekBar) findViewById(R.id.zoomSeekBar);
+    }
+
+    private void setUpZoomBar() {
+        mSbZoomSeekBar.setMax(Math.round(mCameraView.getMaxZoom()));
+        mSbZoomSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                Log.d("zoom", "max zoom === "+mCameraView.getMaxZoom());
+                Log.d("zoom", "seekbar progreess === "+i);
+                mCameraView.setZoom(seekBar.getProgress());
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
     }
 
     @Override
@@ -240,6 +267,7 @@ public class MainActivity extends AppCompatActivity implements
         @Override
         public void onCameraOpened(CameraView cameraView) {
             Log.d(TAG, "onCameraOpened");
+            setUpZoomBar();
         }
 
         @Override
@@ -250,6 +278,7 @@ public class MainActivity extends AppCompatActivity implements
         @Override
         public void onPictureTaken(CameraView cameraView, final byte[] data) {
             Log.d(TAG, "onPictureTaken " + data.length);
+            cameraView.resumePreview();
             Toast.makeText(cameraView.getContext(), R.string.picture_taken, Toast.LENGTH_SHORT)
                     .show();
             getBackgroundHandler().post(new Runnable() {

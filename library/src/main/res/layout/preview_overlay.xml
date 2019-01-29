@@ -11,12 +11,13 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
-<resources>
-    <public name="facing" type="attr"/>
-    <public name="aspectRatio" type="attr"/>
-    <public name="autoFocus" type="attr"/>
-    <public name="flash" type="attr"/>
-    <public name="zoom" type="attr"/>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <public name="Widget.CameraView" type="style"/>
-</resources>
+    <com.google.android.cameraview.PreviewOverlay
+        android:id="@+id/preview_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        />
+
+</merge>
