@@ -481,6 +481,9 @@ public class CameraView extends FrameLayout {
     public void takePicture() {
         mImpl.takePicture();
     }
+    public void setFocusAtCenter() {
+        mImpl.setFocusAt(getWidth()/2,getHeight()/2);
+    }
 
     public void resumePreview() {
         mImpl.resumePreview();

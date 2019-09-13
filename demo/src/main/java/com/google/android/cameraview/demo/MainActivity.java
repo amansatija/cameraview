@@ -50,6 +50,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Calendar;
 import java.util.Set;
 
 
@@ -281,11 +282,12 @@ public class MainActivity extends AppCompatActivity implements
             cameraView.resumePreview();
             Toast.makeText(cameraView.getContext(), R.string.picture_taken, Toast.LENGTH_SHORT)
                     .show();
+            final Calendar cal = Calendar.getInstance();
             getBackgroundHandler().post(new Runnable() {
                 @Override
                 public void run() {
                     File file = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES),
-                            "picture.jpg");
+                            cal.getTimeInMillis()+"_picture.jpg");
                     OutputStream os = null;
                     try {
                         os = new FileOutputStream(file);
@@ -304,9 +306,22 @@ public class MainActivity extends AppCompatActivity implements
                     }
                 }
             });
+            setFocusAtCenter();
         }
-
     };
+
+    private void setFocusAtCenter()
+    {
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mCameraView.setFocusAtCenter();
+                mCameraView.setAutoFocus(true);
+            }
+        },2000);
+
+    }
 
     public static class ConfirmationDialogFragment extends DialogFragment {
 

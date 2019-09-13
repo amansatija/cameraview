@@ -402,6 +402,7 @@ class Camera2 extends CameraViewImpl {
 
     @Override
     void takePicture() {
+        setAutoFocus(false);
         if (mAutoFocus) {
             lockFocus();
         } else {
@@ -447,7 +448,7 @@ class Camera2 extends CameraViewImpl {
                     Log.e(TAG, "Failed to set manual focus.", e);
                 }
             }
-            resumeContinuousAFAfterDelay(Constants.FOCUS_HOLD_MILLIS);
+            //resumeContinuousAFAfterDelay(Constants.FOCUS_HOLD_MILLIS);
         }
     }
 
