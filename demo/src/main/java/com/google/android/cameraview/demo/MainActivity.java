@@ -317,7 +317,7 @@ public class MainActivity extends AppCompatActivity implements
             @Override
             public void run() {
                 mCameraView.setFocusAtCenter();
-                mCameraView.setAutoFocus(true);
+                //mCameraView.setAutoFocus(true);
             }
         },2000);
 
